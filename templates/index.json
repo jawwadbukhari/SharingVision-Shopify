@@ -9,8 +9,8 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "banner_slideshow": {
+      "type": "banner-slideshow",
       "blocks": {
         "heading": {
           "type": "heading",
@@ -30,10 +30,10 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "Shop Women's",
-            "button_link_1": "shopify://collections/womens",
+            "button_link_1": "/collections/womens",
             "button_style_secondary_1": true,
             "button_label_2": "Shop Men's",
-            "button_link_2": "shopify://collections/men-collection",
+            "button_link_2": "/collections/men-collection",
             "button_style_secondary_2": false
           }
         }
@@ -44,9 +44,8 @@
         "button"
       ],
       "settings": {
-        "image": "shopify://shop_images/banner-image-1.jpg",
         "image_overlay_opacity": 20,
-        "image_height": "large",
+        "image_height": "medium",
         "image_behavior": "ambient",
         "desktop_content_position": "middle-center",
         "desktop_content_alignment": "center",
@@ -54,7 +53,7 @@
         "color_scheme": "scheme-5",
         "stack_images_on_mobile": true,
         "mobile_content_alignment": "center",
-        "show_text_below": false
+        "show_text_below": true
       }
     },
     "rich_text": {
@@ -318,7 +317,7 @@
     }
   },
   "order": [
-    "image_banner",
+    "banner_slideshow",
     "rich_text",
     "how_it_works",
     "collage",
