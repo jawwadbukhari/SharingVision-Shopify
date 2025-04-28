@@ -16,7 +16,7 @@
           "type": "heading",
           "settings": {
             "heading": "Stylish Vision, Vibrant You",
-            "heading_size": "hxl"
+            "heading_size": "h1"
           }
         },
         "text": {
@@ -31,10 +31,10 @@
           "settings": {
             "button_label_1": "Shop Women's",
             "button_link_1": "shopify://collections/womens",
-            "button_style_secondary_1": false,
+            "button_style_secondary_1": true,
             "button_label_2": "Shop Men's",
             "button_link_2": "shopify://collections/men-collection",
-            "button_style_secondary_2": true
+            "button_style_secondary_2": false
           }
         }
       },
@@ -51,7 +51,7 @@
         "desktop_content_position": "middle-center",
         "desktop_content_alignment": "center",
         "show_text_box": true,
-        "color_scheme": "scheme-accent-1",
+        "color_scheme": "scheme-5",
         "stack_images_on_mobile": true,
         "mobile_content_alignment": "center",
         "show_text_below": false
@@ -81,10 +81,60 @@
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 40
+      }
+    },
+    "how_it_works": {
+      "type": "how-it-works",
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose Your Frames",
+            "description": "<p>Browse our collection and select the perfect frames that match your style and personality.</p>"
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "title": "Add Prescription",
+            "description": "<p>In you Shopping Basket or During checkout, enter your prescription details or select 'No Prescription' for regular glasses. <br/>You can add one prescription for all items or different prescriptions for each item.</p>"
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "title": "Select Payment Method",
+            "description": "<p>Choose between Cash on Delivery or Bank Deposit. <br/>Both options are secure and convenient for your peace of mind.</p>"
+          }
+        },
+        "step4": {
+          "type": "step",
+          "settings": {
+            "title": "Receive Your Eyewear",
+            "description": "<p>We'll craft your glasses with precision and care, then deliver them straight to your doorstep.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3",
+        "step4"
+      ],
+      "settings": {
+        "title": "How It Works",
+        "description": "<p>Ordering prescription eyewear has never been easier. Follow these simple steps to get your perfect pair.</p>",
+        "show_payment_info": true,
+        "payment_title": "Payment Options",
+        "cod_description": "Pay when your order arrives at your doorstep. Available nationwide with no additional fees.",
+        "bank_description": "Make a direct deposit to our bank account. We'll process your order once payment is confirmed.",
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 16
       }
     },
     "collage": {
@@ -264,56 +314,6 @@
         "color_scheme": "scheme-5",
         "padding_top": 48,
         "padding_bottom": 48
-      }
-    },
-    "how_it_works": {
-      "type": "how-it-works",
-      "blocks": {
-        "step1": {
-          "type": "step",
-          "settings": {
-            "title": "Choose Your Frames",
-            "description": "<p>Browse our collection and select the perfect frames that match your style and personality.</p>"
-          }
-        },
-        "step2": {
-          "type": "step",
-          "settings": {
-            "title": "Add Prescription",
-            "description": "<p>During checkout, enter your prescription details or select 'No Prescription' for regular glasses. You can add one prescription for all items or different prescriptions for each item.</p>"
-          }
-        },
-        "step3": {
-          "type": "step",
-          "settings": {
-            "title": "Select Payment Method",
-            "description": "<p>Choose between Cash on Delivery or Bank Deposit. Both options are secure and convenient for your peace of mind.</p>"
-          }
-        },
-        "step4": {
-          "type": "step",
-          "settings": {
-            "title": "Receive Your Eyewear",
-            "description": "<p>We'll craft your glasses with precision and care, then deliver them straight to your doorstep within 7-10 business days.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "step1",
-        "step2",
-        "step3",
-        "step4"
-      ],
-      "settings": {
-        "title": "How It Works",
-        "description": "<p>Ordering prescription eyewear has never been easier. Follow these simple steps to get your perfect pair.</p>",
-        "show_payment_info": true,
-        "payment_title": "Payment Options",
-        "cod_description": "Pay when your order arrives at your doorstep. Available nationwide with no additional fees.",
-        "bank_description": "Make a direct deposit to our bank account. We'll process your order once payment is confirmed.",
-        "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60
       }
     }
   },

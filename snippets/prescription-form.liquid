@@ -88,10 +88,10 @@
           <span>Click to select a file or drag and drop</span>
           <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
         </label>
-        <input type="file" id="prescription_image" name="cart[prescription_image]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+        <input type="file" id="prescription_image" name="cart[prescription_image]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" data-prescription-file>
         <div id="file-preview" class="file-preview" style="display: none;">
           <div class="preview-content">
-            <img id="image-preview" src="{{ 'no-image.png' | asset_url }}" alt="Prescription preview" style="display: none;" width="200" height="auto">
+            <img id="image-preview" src="" alt="Prescription preview" style="display: none;" width="200" height="auto">
             <div id="file-name" class="file-name"></div>
           </div>
           <button type="button" id="remove-file" class="remove-file">Remove</button>
@@ -178,10 +178,10 @@
               <span>Click to select a file or drag and drop</span>
               <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
             </label>
-            <input type="file" id="prescription_image_{{ item.key }}" name="properties[prescription_image_{{ item.key }}]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" class="item-file-input" data-item-key="{{ item.key }}">
+            <input type="file" id="prescription_image_{{ item.key }}" name="properties[prescription_image_{{ item.key }}]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" class="item-file-input" data-item-key="{{ item.key }}" data-prescription-file>
             <div id="file-preview-{{ item.key }}" class="file-preview" style="display: none;">
               <div class="preview-content">
-                <img id="image-preview-{{ item.key }}" src="{{ 'no-image.png' | asset_url }}" alt="Prescription preview" style="display: none;" width="200" height="auto">
+                <img id="image-preview-{{ item.key }}" src="" alt="Prescription preview" style="display: none;" width="200" height="auto">
                 <div id="file-name-{{ item.key }}" class="file-name"></div>
               </div>
               <button type="button" class="remove-file" data-item-key="{{ item.key }}">Remove</button>
@@ -447,9 +447,104 @@
     const prescriptionImageForm = document.getElementById('prescription-image-form');
     const perItemPrescriptions = document.getElementById('per-item-prescriptions');
 
+    // Set default empty values for all form inputs to prevent null/undefined errors
+    const allInputs = [
+      ...document.querySelectorAll('.prescription-form-container input[type="text"]'),
+      ...document.querySelectorAll('.prescription-form-container textarea'),
+      ...document.querySelectorAll('#per-item-prescriptions input[type="text"]'),
+      ...document.querySelectorAll('#per-item-prescriptions textarea')
+    ];
+
+    allInputs.forEach(input => {
+      // Set initial value to empty string if null or undefined
+      if (input.value === null || input.value === undefined) {
+        input.value = '';
+      }
+
+      // Add event listener for changes
+      input.addEventListener('change', function(event) {
+        // Prevent event propagation
+        event.stopPropagation();
+
+        // If value is null or undefined, set to empty string
+        if (this.value === null || this.value === undefined) {
+          this.value = '';
+        }
+      });
+    });
+
+    // Add form submission handler to ensure all values are valid
+    const cartForm = document.querySelector('form[action="/cart"]');
+    if (cartForm) {
+      cartForm.addEventListener('submit', function(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Find all inputs in the form
+        const formInputs = this.querySelectorAll('input[type="text"], textarea');
+
+        // Set empty string for any null or undefined values
+        formInputs.forEach(input => {
+          if (input.value === null || input.value === undefined) {
+            input.value = '';
+          }
+        });
+
+        // Create a new FormData object to handle the form submission
+        const formData = new FormData(this);
+
+        // Handle file inputs - remove any unused file inputs to prevent validation errors
+        const allFileInputs = this.querySelectorAll('input[type="file"][data-prescription-file]');
+        allFileInputs.forEach(fileInput => {
+          // Check if this file input is part of a visible section
+          const prescriptionType = document.querySelector('input[name="prescription_type"]:checked');
+          const isMainImageSelected = prescriptionType && prescriptionType.value === 'prescription_image';
+          const isItemImageSelected = fileInput.closest('.item-prescription-image') &&
+                                     fileInput.closest('.item-prescription-image').style.display !== 'none';
+
+          // If file input is not being used, remove it from the form temporarily
+          if (fileInput.id === 'prescription_image' && !isMainImageSelected) {
+            fileInput.setAttribute('disabled', 'disabled');
+          } else if (fileInput.classList.contains('item-file-input') && !isItemImageSelected) {
+            fileInput.setAttribute('disabled', 'disabled');
+          }
+        });
+
+        // Check if we're using the prescription image option
+        const prescriptionType = document.querySelector('input[name="prescription_type"]:checked');
+        if (prescriptionType && prescriptionType.value === 'prescription_image') {
+          // If no file is selected, disable the file input to prevent validation errors
+          const fileInput = document.getElementById('prescription_image');
+          if (fileInput && (!fileInput.files || fileInput.files.length === 0)) {
+            fileInput.setAttribute('disabled', 'disabled');
+          }
+        }
+
+        // Check for per-item prescription images
+        document.querySelectorAll('.item-file-input').forEach(input => {
+          const itemKey = input.dataset.itemKey;
+          const radioSelector = `input[name="prescription_type_${itemKey}"]:checked`;
+          const itemPrescriptionType = document.querySelector(radioSelector);
+
+          if (itemPrescriptionType && itemPrescriptionType.value === 'with_prescription_image') {
+            // If no file is selected, disable the file input to prevent validation errors
+            if (!input.files || input.files.length === 0) {
+              input.setAttribute('disabled', 'disabled');
+            }
+          }
+        });
+
+        // Now submit the form
+        this.submit();
+      });
+    }
+
     // Handle prescription type selection
     prescriptionTypeRadios.forEach(radio => {
-      radio.addEventListener('change', function() {
+      radio.addEventListener('change', function(event) {
+        // Prevent the event from bubbling up to the cart's change handler
+        event.stopPropagation();
+
         // Hide all forms first
         singlePrescriptionForm.style.display = 'none';
         multiplePrescriptionForm.style.display = 'none';
@@ -471,7 +566,10 @@
     // Handle per-item prescription toggles
     const itemPrescriptionRadios = document.querySelectorAll('input[name^="prescription_type_"]');
     itemPrescriptionRadios.forEach(radio => {
-      radio.addEventListener('change', function() {
+      radio.addEventListener('change', function(event) {
+        // Prevent the event from bubbling up to the cart's change handler
+        event.stopPropagation();
+
         const container = this.closest('.item-prescription-content');
         const detailsSection = container.querySelector('.item-prescription-details');
         const imageSection = container.querySelector('.item-prescription-image');
@@ -537,35 +635,49 @@
 
     // Function to handle file selection
     function handleFileSelect(e) {
-      const file = e.target.files[0];
+      try {
+        const file = e.target.files[0];
 
-      if (!file) return;
+        if (!file) return;
 
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File is too large. Maximum size is 5MB.');
-        fileInput.value = '';
-        return;
-      }
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File is too large. Maximum size is 5MB.');
+          fileInput.value = '';
+          return;
+        }
 
-      // Update file name display
-      fileName.textContent = file.name;
+        // Update file name display
+        fileName.textContent = file.name || '';
 
-      // Show file preview
-      filePreview.style.display = 'flex';
+        // Show file preview
+        filePreview.style.display = 'flex';
 
-      // If it's an image, show the image preview
-      if (file.type.match('image.*')) {
-        const reader = new FileReader();
+        // If it's an image, show the image preview
+        if (file.type && file.type.match('image.*')) {
+          const reader = new FileReader();
 
-        reader.onload = function(e) {
-          imagePreview.src = e.target.result;
-          imagePreview.style.display = 'block';
-        };
+          reader.onload = function(e) {
+            if (e.target && e.target.result) {
+              imagePreview.src = e.target.result;
+              imagePreview.style.display = 'block';
+            }
+          };
 
-        reader.readAsDataURL(file);
-      } else {
-        // If it's a PDF or other non-image file
+          reader.onerror = function() {
+            // Handle read errors
+            imagePreview.style.display = 'none';
+            console.log('Error reading file');
+          };
+
+          reader.readAsDataURL(file);
+        } else {
+          // If it's a PDF or other non-image file
+          imagePreview.style.display = 'none';
+        }
+      } catch (error) {
+        console.log('Error handling file selection:', error);
+        // Ensure we don't break the form if there's an error
         imagePreview.style.display = 'none';
       }
     }
@@ -628,39 +740,52 @@
 
     // Function to handle individual item file selection
     function handleItemFileSelect(e, itemKey) {
-      const file = e.target.files[0];
-      const filePreview = document.getElementById(`file-preview-${itemKey}`);
-      const imagePreview = document.getElementById(`image-preview-${itemKey}`);
-      const fileName = document.getElementById(`file-name-${itemKey}`);
+      try {
+        const file = e.target.files[0];
+        const filePreview = document.getElementById(`file-preview-${itemKey}`);
+        const imagePreview = document.getElementById(`image-preview-${itemKey}`);
+        const fileName = document.getElementById(`file-name-${itemKey}`);
 
-      if (!file) return;
+        if (!file || !filePreview || !imagePreview || !fileName) return;
 
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File is too large. Maximum size is 5MB.');
-        e.target.value = '';
-        return;
-      }
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File is too large. Maximum size is 5MB.');
+          e.target.value = '';
+          return;
+        }
 
-      // Update file name display
-      fileName.textContent = file.name;
+        // Update file name display
+        fileName.textContent = file.name || '';
 
-      // Show file preview
-      filePreview.style.display = 'flex';
+        // Show file preview
+        filePreview.style.display = 'flex';
 
-      // If it's an image, show the image preview
-      if (file.type.match('image.*')) {
-        const reader = new FileReader();
+        // If it's an image, show the image preview
+        if (file.type && file.type.match('image.*')) {
+          const reader = new FileReader();
 
-        reader.onload = function(e) {
-          imagePreview.src = e.target.result;
-          imagePreview.style.display = 'block';
-        };
+          reader.onload = function(e) {
+            if (e.target && e.target.result) {
+              imagePreview.src = e.target.result;
+              imagePreview.style.display = 'block';
+            }
+          };
 
-        reader.readAsDataURL(file);
-      } else {
-        // If it's a PDF or other non-image file
-        imagePreview.style.display = 'none';
+          reader.onerror = function() {
+            // Handle read errors
+            imagePreview.style.display = 'none';
+            console.log('Error reading file');
+          };
+
+          reader.readAsDataURL(file);
+        } else {
+          // If it's a PDF or other non-image file
+          imagePreview.style.display = 'none';
+        }
+      } catch (error) {
+        console.log('Error handling item file selection:', error);
+        // Ensure we don't break the form if there's an error
       }
     }
   });

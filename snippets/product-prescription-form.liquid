@@ -1,0 +1,431 @@
+{% comment %}
+  Product Prescription Form Snippet
+  This snippet creates a collapsible prescription form for the product page
+{% endcomment %}
+
+<div class="product-prescription-form-container" data-prescription-form>
+  <div class="product-prescription-form-header" onclick="toggleProductPrescriptionForm(this)">
+    <h3>Add Prescription Details <span class="toggle-icon">+</span></h3>
+  </div>
+  
+  <div class="product-prescription-form-content" style="display: none;">
+    <div class="prescription-option-selector">
+      <label>
+        <input type="radio" name="properties[prescription_type]" value="no_prescription" checked> 
+        No prescription (default glasses)
+      </label>
+      <label>
+        <input type="radio" name="properties[prescription_type]" value="with_prescription"> 
+        Add prescription details
+      </label>
+      <label>
+        <input type="radio" name="properties[prescription_type]" value="with_prescription_image"> 
+        Upload prescription image
+      </label>
+    </div>
+    
+    <div id="product-prescription-details" class="prescription-details" style="display: none;">
+      <div class="prescription-grid">
+        <div class="prescription-header">
+          <div></div>
+          <div>SPH</div>
+          <div>CYL</div>
+          <div>AXIS</div>
+          <div>ADD</div>
+          <div>PD</div>
+        </div>
+        
+        <div class="prescription-row">
+          <div>RIGHT EYE (OD)</div>
+          <div><input type="text" name="properties[right_sph]" placeholder="+/-"></div>
+          <div><input type="text" name="properties[right_cyl]" placeholder="+/-"></div>
+          <div><input type="text" name="properties[right_axis]" placeholder="1-180"></div>
+          <div><input type="text" name="properties[right_add]" placeholder="+"></div>
+          <div rowspan="2" class="pd-field">
+            <input type="text" name="properties[pd]" placeholder="mm">
+            <small>Or separate: <input type="text" name="properties[pd_right]" placeholder="Right" style="width: 40px;"> / <input type="text" name="properties[pd_left]" placeholder="Left" style="width: 40px;"></small>
+          </div>
+        </div>
+        
+        <div class="prescription-row">
+          <div>LEFT EYE (OS)</div>
+          <div><input type="text" name="properties[left_sph]" placeholder="+/-"></div>
+          <div><input type="text" name="properties[left_cyl]" placeholder="+/-"></div>
+          <div><input type="text" name="properties[left_axis]" placeholder="1-180"></div>
+          <div><input type="text" name="properties[left_add]" placeholder="+"></div>
+        </div>
+      </div>
+      
+      <div class="prescription-notes">
+        <label for="product_prescription_notes">Additional Notes:</label>
+        <textarea name="properties[prescription_notes]" id="product_prescription_notes" rows="3" placeholder="Any special instructions for your prescription..."></textarea>
+      </div>
+    </div>
+    
+    <div id="product-prescription-image" class="prescription-details" style="display: none;">
+      <h4>Upload Your Prescription Image</h4>
+      <p class="prescription-upload-info">Please upload a clear photo or scan of your prescription. Make sure all details are visible and readable.</p>
+      
+      <div class="prescription-image-upload">
+        <label for="product_prescription_image" class="upload-label">
+          <div class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <span>Click to select a file or drag and drop</span>
+          <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
+        </label>
+        <input type="file" id="product_prescription_image" name="properties[prescription_image]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+        <div id="product-file-preview" class="file-preview" style="display: none;">
+          <div class="preview-content">
+            <img id="product-image-preview" src="" alt="Prescription preview" style="display: none;" width="200" height="auto">
+            <div id="product-file-name" class="file-name"></div>
+          </div>
+          <button type="button" id="product-remove-file" class="remove-file">Remove</button>
+        </div>
+      </div>
+      
+      <div class="prescription-notes">
+        <label for="product_prescription_image_notes">Additional Notes:</label>
+        <textarea name="properties[prescription_image_notes]" id="product_prescription_image_notes" rows="3" placeholder="Any special instructions for your prescription..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-prescription-form-container {
+    margin: 20px 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .product-prescription-form-header {
+    background-color: #f9f9f9;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+  }
+  
+  .product-prescription-form-header:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .product-prescription-form-content {
+    padding: 20px;
+    border-top: 1px solid #e6e6e6;
+  }
+  
+  .prescription-option-selector {
+    margin-bottom: 20px;
+  }
+  
+  .prescription-option-selector label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .prescription-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-header div, .prescription-row div {
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .prescription-row input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .prescription-notes {
+    margin-top: 20px;
+  }
+  
+  .prescription-notes textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .toggle-icon {
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  
+  .expanded .toggle-icon {
+    transform: rotate(45deg);
+  }
+  
+  /* Prescription Image Upload Styles */
+  .prescription-upload-info {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .prescription-image-upload {
+    margin-bottom: 20px;
+  }
+  
+  .upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+  }
+  
+  .upload-label:hover {
+    border-color: #E83E8C;
+    background-color: #fff0f5;
+  }
+  
+  .upload-icon {
+    margin-bottom: 15px;
+  }
+  
+  .upload-icon svg {
+    width: 40px;
+    height: 40px;
+    color: #E83E8C;
+  }
+  
+  .upload-label span {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .upload-label small {
+    color: #666;
+  }
+  
+  .file-preview {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+  }
+  
+  .preview-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  #product-image-preview {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .file-name {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .remove-file {
+    background-color: transparent;
+    color: #E83E8C;
+    border: 1px solid #E83E8C;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .remove-file:hover {
+    background-color: #E83E8C;
+    color: white;
+  }
+  
+  .drag-over {
+    border-color: #E83E8C;
+    background-color: #fff0f5;
+  }
+  
+  @media (max-width: 768px) {
+    .prescription-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    
+    .prescription-header {
+      display: none;
+    }
+    
+    .prescription-row div:first-child {
+      font-weight: bold;
+      grid-column: 1 / -1;
+      text-align: left;
+    }
+    
+    .prescription-row div:not(:first-child) {
+      position: relative;
+    }
+    
+    .prescription-row div:not(:first-child)::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .pd-field {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  function toggleProductPrescriptionForm(element) {
+    const content = element.nextElementSibling;
+    element.classList.toggle('expanded');
+    
+    if (content.style.display === 'none') {
+      content.style.display = 'block';
+    } else {
+      content.style.display = 'none';
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle prescription type selection
+    const prescriptionTypeRadios = document.querySelectorAll('input[name="properties[prescription_type]"]');
+    const prescriptionDetailsForm = document.getElementById('product-prescription-details');
+    const prescriptionImageForm = document.getElementById('product-prescription-image');
+    
+    prescriptionTypeRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        // Hide all forms first
+        prescriptionDetailsForm.style.display = 'none';
+        prescriptionImageForm.style.display = 'none';
+        
+        // Show the selected form
+        if (this.value === 'with_prescription') {
+          prescriptionDetailsForm.style.display = 'block';
+        } else if (this.value === 'with_prescription_image') {
+          prescriptionImageForm.style.display = 'block';
+        }
+      });
+    });
+    
+    // Handle prescription image upload
+    const fileInput = document.getElementById('product_prescription_image');
+    const uploadLabel = document.querySelector('.upload-label');
+    const filePreview = document.getElementById('product-file-preview');
+    const imagePreview = document.getElementById('product-image-preview');
+    const fileName = document.getElementById('product-file-name');
+    const removeFileBtn = document.getElementById('product-remove-file');
+    
+    if (fileInput) {
+      // File input change handler
+      fileInput.addEventListener('change', function(e) {
+        handleFileSelect(e);
+      });
+      
+      // Drag and drop handlers
+      if (uploadLabel) {
+        uploadLabel.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.classList.add('drag-over');
+        });
+        
+        uploadLabel.addEventListener('dragleave', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.classList.remove('drag-over');
+        });
+        
+        uploadLabel.addEventListener('drop', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.classList.remove('drag-over');
+          
+          if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelect({ target: fileInput });
+          }
+        });
+      }
+      
+      // Remove file button handler
+      if (removeFileBtn) {
+        removeFileBtn.addEventListener('click', function() {
+          fileInput.value = '';
+          filePreview.style.display = 'none';
+          imagePreview.style.display = 'none';
+          imagePreview.src = ''; // Empty src is fine
+          fileName.textContent = '';
+        });
+      }
+    }
+    
+    // Function to handle file selection
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      
+      if (!file) return;
+      
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large. Maximum size is 5MB.');
+        fileInput.value = '';
+        return;
+      }
+      
+      // Update file name display
+      fileName.textContent = file.name;
+      
+      // Show file preview
+      filePreview.style.display = 'flex';
+      
+      // If it's an image, show the image preview
+      if (file.type.match('image.*')) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'block';
+        };
+        
+        reader.readAsDataURL(file);
+      } else {
+        // If it's a PDF or other non-image file
+        imagePreview.style.display = 'none';
+      }
+    }
+  });
+</script>
