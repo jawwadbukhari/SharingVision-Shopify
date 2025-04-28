@@ -1,0 +1,316 @@
+{% comment %}
+  Prescription Form Snippet
+  This snippet creates a collapsible prescription form for eyewear orders
+{% endcomment %}
+
+<div class="prescription-form-container" data-prescription-form>
+  <div class="prescription-form-header" onclick="togglePrescriptionForm(this)">
+    <h3>Add Prescription Details <span class="toggle-icon">+</span></h3>
+  </div>
+  
+  <div class="prescription-form-content" style="display: none;">
+    <div class="prescription-option-selector">
+      <label>
+        <input type="radio" name="prescription_type" value="no_prescription" checked> 
+        No prescription (default glasses)
+      </label>
+      <label>
+        <input type="radio" name="prescription_type" value="single_prescription"> 
+        Use one prescription for all items
+      </label>
+      <label>
+        <input type="radio" name="prescription_type" value="multiple_prescription"> 
+        Use different prescriptions for each item
+      </label>
+    </div>
+    
+    <div id="single-prescription-form" class="prescription-details" style="display: none;">
+      <h4>Enter Your Prescription</h4>
+      
+      <div class="prescription-grid">
+        <div class="prescription-header">
+          <div></div>
+          <div>SPH</div>
+          <div>CYL</div>
+          <div>AXIS</div>
+          <div>ADD</div>
+          <div>PD</div>
+        </div>
+        
+        <div class="prescription-row">
+          <div>RIGHT EYE (OD)</div>
+          <div><input type="text" name="cart[right_sph]" placeholder="+/-"></div>
+          <div><input type="text" name="cart[right_cyl]" placeholder="+/-"></div>
+          <div><input type="text" name="cart[right_axis]" placeholder="1-180"></div>
+          <div><input type="text" name="cart[right_add]" placeholder="+"></div>
+          <div rowspan="2" class="pd-field">
+            <input type="text" name="cart[pd]" placeholder="mm">
+            <small>Or separate: <input type="text" name="cart[pd_right]" placeholder="Right" style="width: 40px;"> / <input type="text" name="cart[pd_left]" placeholder="Left" style="width: 40px;"></small>
+          </div>
+        </div>
+        
+        <div class="prescription-row">
+          <div>LEFT EYE (OS)</div>
+          <div><input type="text" name="cart[left_sph]" placeholder="+/-"></div>
+          <div><input type="text" name="cart[left_cyl]" placeholder="+/-"></div>
+          <div><input type="text" name="cart[left_axis]" placeholder="1-180"></div>
+          <div><input type="text" name="cart[left_add]" placeholder="+"></div>
+        </div>
+      </div>
+      
+      <div class="prescription-notes">
+        <label for="prescription_notes">Additional Notes:</label>
+        <textarea name="cart[prescription_notes]" id="prescription_notes" rows="3" placeholder="Any special instructions for your prescription..."></textarea>
+      </div>
+    </div>
+    
+    <div id="multiple-prescription-form" class="prescription-details" style="display: none;">
+      <p>You'll be able to enter prescription details for each item individually below.</p>
+    </div>
+  </div>
+</div>
+
+<div id="per-item-prescriptions" style="display: none;">
+  {% for item in cart.items %}
+    <div class="item-prescription-container" data-item-key="{{ item.key }}">
+      <div class="item-prescription-header" onclick="toggleItemPrescription(this)">
+        <h4>Prescription for: {{ item.product.title }} <span class="toggle-icon">+</span></h4>
+      </div>
+      
+      <div class="item-prescription-content" style="display: none;">
+        <label>
+          <input type="radio" name="prescription_type_{{ item.key }}" value="no_prescription" checked> 
+          No prescription (default glasses)
+        </label>
+        <label>
+          <input type="radio" name="prescription_type_{{ item.key }}" value="with_prescription"> 
+          Add prescription
+        </label>
+        
+        <div class="item-prescription-details" style="display: none;">
+          <div class="prescription-grid">
+            <div class="prescription-header">
+              <div></div>
+              <div>SPH</div>
+              <div>CYL</div>
+              <div>AXIS</div>
+              <div>ADD</div>
+              <div>PD</div>
+            </div>
+            
+            <div class="prescription-row">
+              <div>RIGHT EYE (OD)</div>
+              <div><input type="text" name="properties[right_sph_{{ item.key }}]" placeholder="+/-"></div>
+              <div><input type="text" name="properties[right_cyl_{{ item.key }}]" placeholder="+/-"></div>
+              <div><input type="text" name="properties[right_axis_{{ item.key }}]" placeholder="1-180"></div>
+              <div><input type="text" name="properties[right_add_{{ item.key }}]" placeholder="+"></div>
+              <div rowspan="2" class="pd-field">
+                <input type="text" name="properties[pd_{{ item.key }}]" placeholder="mm">
+                <small>Or separate: <input type="text" name="properties[pd_right_{{ item.key }}]" placeholder="Right" style="width: 40px;"> / <input type="text" name="properties[pd_left_{{ item.key }}]" placeholder="Left" style="width: 40px;"></small>
+              </div>
+            </div>
+            
+            <div class="prescription-row">
+              <div>LEFT EYE (OS)</div>
+              <div><input type="text" name="properties[left_sph_{{ item.key }}]" placeholder="+/-"></div>
+              <div><input type="text" name="properties[left_cyl_{{ item.key }}]" placeholder="+/-"></div>
+              <div><input type="text" name="properties[left_axis_{{ item.key }}]" placeholder="1-180"></div>
+              <div><input type="text" name="properties[left_add_{{ item.key }}]" placeholder="+"></div>
+            </div>
+          </div>
+          
+          <div class="prescription-notes">
+            <label for="prescription_notes_{{ item.key }}">Additional Notes:</label>
+            <textarea name="properties[prescription_notes_{{ item.key }}]" id="prescription_notes_{{ item.key }}" rows="3" placeholder="Any special instructions for this item..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<style>
+  .prescription-form-container {
+    margin: 20px 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .prescription-form-header, .item-prescription-header {
+    background-color: #f9f9f9;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+  }
+  
+  .prescription-form-header:hover, .item-prescription-header:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .prescription-form-content, .item-prescription-content {
+    padding: 20px;
+    border-top: 1px solid #e6e6e6;
+  }
+  
+  .prescription-option-selector {
+    margin-bottom: 20px;
+  }
+  
+  .prescription-option-selector label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .prescription-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-header div, .prescription-row div {
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .prescription-row input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .prescription-notes {
+    margin-top: 20px;
+  }
+  
+  .prescription-notes textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .item-prescription-container {
+    margin: 10px 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .toggle-icon {
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  
+  .expanded .toggle-icon {
+    transform: rotate(45deg);
+  }
+  
+  @media (max-width: 768px) {
+    .prescription-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    
+    .prescription-header {
+      display: none;
+    }
+    
+    .prescription-row div:first-child {
+      font-weight: bold;
+      grid-column: 1 / -1;
+      text-align: left;
+    }
+    
+    .prescription-row div:not(:first-child) {
+      position: relative;
+    }
+    
+    .prescription-row div:not(:first-child)::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .pd-field {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  function togglePrescriptionForm(element) {
+    const content = element.nextElementSibling;
+    element.classList.toggle('expanded');
+    
+    if (content.style.display === 'none') {
+      content.style.display = 'block';
+    } else {
+      content.style.display = 'none';
+    }
+  }
+  
+  function toggleItemPrescription(element) {
+    const content = element.nextElementSibling;
+    element.classList.toggle('expanded');
+    
+    if (content.style.display === 'none') {
+      content.style.display = 'block';
+    } else {
+      content.style.display = 'none';
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const prescriptionTypeRadios = document.querySelectorAll('input[name="prescription_type"]');
+    const singlePrescriptionForm = document.getElementById('single-prescription-form');
+    const multiplePrescriptionForm = document.getElementById('multiple-prescription-form');
+    const perItemPrescriptions = document.getElementById('per-item-prescriptions');
+    
+    prescriptionTypeRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'no_prescription') {
+          singlePrescriptionForm.style.display = 'none';
+          multiplePrescriptionForm.style.display = 'none';
+          perItemPrescriptions.style.display = 'none';
+        } else if (this.value === 'single_prescription') {
+          singlePrescriptionForm.style.display = 'block';
+          multiplePrescriptionForm.style.display = 'none';
+          perItemPrescriptions.style.display = 'none';
+        } else if (this.value === 'multiple_prescription') {
+          singlePrescriptionForm.style.display = 'none';
+          multiplePrescriptionForm.style.display = 'block';
+          perItemPrescriptions.style.display = 'block';
+        }
+      });
+    });
+    
+    // Handle per-item prescription toggles
+    const itemPrescriptionRadios = document.querySelectorAll('input[name^="prescription_type_"]');
+    itemPrescriptionRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const container = this.closest('.item-prescription-content');
+        const detailsSection = container.querySelector('.item-prescription-details');
+        
+        if (this.value === 'with_prescription') {
+          detailsSection.style.display = 'block';
+        } else {
+          detailsSection.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

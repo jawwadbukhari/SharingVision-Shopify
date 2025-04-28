@@ -265,11 +265,62 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "how_it_works": {
+      "type": "how-it-works",
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose Your Frames",
+            "description": "<p>Browse our collection and select the perfect frames that match your style and personality.</p>"
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "title": "Add Prescription",
+            "description": "<p>During checkout, enter your prescription details or select 'No Prescription' for regular glasses. You can add one prescription for all items or different prescriptions for each item.</p>"
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "title": "Select Payment Method",
+            "description": "<p>Choose between Cash on Delivery or Bank Deposit. Both options are secure and convenient for your peace of mind.</p>"
+          }
+        },
+        "step4": {
+          "type": "step",
+          "settings": {
+            "title": "Receive Your Eyewear",
+            "description": "<p>We'll craft your glasses with precision and care, then deliver them straight to your doorstep within 7-10 business days.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3",
+        "step4"
+      ],
+      "settings": {
+        "title": "How It Works",
+        "description": "<p>Ordering prescription eyewear has never been easier. Follow these simple steps to get your perfect pair.</p>",
+        "show_payment_info": true,
+        "payment_title": "Payment Options",
+        "cod_description": "Pay when your order arrives at your doorstep. Available nationwide with no additional fees.",
+        "bank_description": "Make a direct deposit to our bank account. We'll process your order once payment is confirmed.",
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "image_banner",
     "rich_text",
+    "how_it_works",
     "collage",
     "featured_collection",
     "testimonials",

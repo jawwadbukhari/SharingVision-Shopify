@@ -437,6 +437,14 @@
         </div>
       </div>
 
+      {% comment %} Prescription Form Section {% endcomment %}
+      <div class="cart-prescription-section">
+        <h2>Prescription Information</h2>
+        <p>Please provide your prescription details below or select "No prescription" if you're ordering regular glasses.</p>
+
+        {% render 'prescription-form' %}
+      </div>
+
       <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
       <p
         class="visually-hidden"
@@ -450,6 +458,20 @@
     </form>
   </div>
 </cart-items>
+
+<style>
+  .cart-prescription-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+
+  .cart-prescription-section h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+</style>
 
 {% schema %}
 {

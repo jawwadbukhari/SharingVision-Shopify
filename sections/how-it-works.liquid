@@ -1,0 +1,353 @@
+{{ 'section-how-it-works.css' | asset_url | stylesheet_tag }}
+
+<div class="how-it-works-section page-width section-{{ section.id }}-padding">
+  <div class="how-it-works-header">
+    <h2 class="how-it-works-title">{{ section.settings.title | escape }}</h2>
+    {% if section.settings.description != blank %}
+      <div class="how-it-works-description">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="how-it-works-steps">
+    {% for block in section.blocks %}
+      <div class="how-it-works-step" {{ block.shopify_attributes }}>
+        <div class="step-number">{{ forloop.index }}</div>
+        <div class="step-content">
+          <h3 class="step-title">{{ block.settings.title | escape }}</h3>
+          <div class="step-description">{{ block.settings.description }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  {% if section.settings.show_payment_info %}
+    <div class="payment-info">
+      <h3>{{ section.settings.payment_title | escape }}</h3>
+      <div class="payment-methods">
+        <div class="payment-method">
+          <div class="payment-icon">
+            {% render 'icon-cash-delivery' %}
+          </div>
+          <div class="payment-details">
+            <h4>Cash on Delivery</h4>
+            <p>{{ section.settings.cod_description }}</p>
+          </div>
+        </div>
+        
+        <div class="payment-method">
+          <div class="payment-icon">
+            {% render 'icon-bank-transfer' %}
+          </div>
+          <div class="payment-details">
+            <h4>Bank Deposit</h4>
+            <p>{{ section.settings.bank_description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "How It Works",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "How It Works",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Follow these simple steps to order your perfect eyewear with prescription.</p>",
+      "label": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_info",
+      "default": true,
+      "label": "Show Payment Information"
+    },
+    {
+      "type": "text",
+      "id": "payment_title",
+      "default": "Payment Options",
+      "label": "Payment Section Title"
+    },
+    {
+      "type": "textarea",
+      "id": "cod_description",
+      "default": "Pay when your order arrives at your doorstep. Available nationwide.",
+      "label": "Cash on Delivery Description"
+    },
+    {
+      "type": "textarea",
+      "id": "bank_description",
+      "default": "Make a direct deposit to our bank account. We'll process your order once payment is confirmed.",
+      "label": "Bank Deposit Description"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "scheme-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "scheme-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "scheme-3",
+          "label": "Background 3"
+        },
+        {
+          "value": "scheme-4",
+          "label": "Background 4"
+        },
+        {
+          "value": "scheme-5",
+          "label": "Background 5"
+        },
+        {
+          "value": "scheme-accent-1",
+          "label": "Accent 1"
+        }
+      ],
+      "default": "scheme-2",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Choose Your Frames",
+          "label": "Step Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "default": "<p>Browse our collection and select the perfect frames that match your style.</p>",
+          "label": "Step Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Choose Your Frames",
+            "description": "<p>Browse our collection and select the perfect frames that match your style.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Add Prescription",
+            "description": "<p>Enter your prescription details during checkout or select 'No Prescription' for regular glasses.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Complete Your Order",
+            "description": "<p>Review your order, select your payment method, and confirm your purchase.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Receive Your Eyewear",
+            "description": "<p>We'll craft your glasses with care and deliver them straight to your door.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.how-it-works-section {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.how-it-works-header {
+  margin-bottom: 40px;
+}
+
+.how-it-works-title {
+  margin-bottom: 15px;
+  font-size: 2.2rem;
+}
+
+.how-it-works-description {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.how-it-works-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.how-it-works-step {
+  flex: 1 1 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #E83E8C;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.step-title {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.step-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.payment-info {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.payment-method {
+  flex: 1 1 300px;
+  max-width: 400px;
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.payment-icon {
+  flex: 0 0 60px;
+  margin-right: 15px;
+}
+
+.payment-icon svg {
+  width: 50px;
+  height: 50px;
+  fill: #E83E8C;
+}
+
+.payment-details {
+  flex: 1;
+  text-align: left;
+}
+
+.payment-details h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.payment-details p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 749px) {
+  .how-it-works-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .how-it-works-step {
+    max-width: 100%;
+  }
+  
+  .payment-methods {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .payment-method {
+    max-width: 100%;
+  }
+}
+{% endstylesheet %}

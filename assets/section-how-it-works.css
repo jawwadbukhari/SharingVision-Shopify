@@ -1,0 +1,141 @@
+.how-it-works-section {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.how-it-works-header {
+  margin-bottom: 40px;
+}
+
+.how-it-works-title {
+  margin-bottom: 15px;
+  font-size: 2.2rem;
+}
+
+.how-it-works-description {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.how-it-works-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.how-it-works-step {
+  flex: 1 1 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #E83E8C;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.step-title {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.step-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.payment-info {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.payment-method {
+  flex: 1 1 300px;
+  max-width: 400px;
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.payment-icon {
+  flex: 0 0 60px;
+  margin-right: 15px;
+}
+
+.payment-icon svg {
+  width: 50px;
+  height: 50px;
+  fill: #E83E8C;
+}
+
+.payment-details {
+  flex: 1;
+  text-align: left;
+}
+
+.payment-details h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.payment-details p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 749px) {
+  .how-it-works-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .how-it-works-step {
+    max-width: 100%;
+  }
+  
+  .payment-methods {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .payment-method {
+    max-width: 100%;
+  }
+}
