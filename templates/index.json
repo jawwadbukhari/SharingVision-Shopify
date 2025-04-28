@@ -318,10 +318,10 @@
   },
   "order": [
     "banner_slideshow",
-    "rich_text",
-    "how_it_works",
     "collage",
     "featured_collection",
+    "how_it_works",
+    "rich_text",
     "testimonials",
     "multicolumn",
     "blog"
