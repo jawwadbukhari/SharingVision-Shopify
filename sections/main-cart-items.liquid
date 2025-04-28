@@ -48,7 +48,7 @@
       {%- endif -%}
     </div>
 
-    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
+    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart" data-cart-form>
       <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
         <div class="js-contents">
           {%- if cart != empty -%}
@@ -439,8 +439,32 @@
 
       {% comment %} Prescription Form Section {% endcomment %}
       <div class="cart-prescription-section">
-        <h2>Prescription Information</h2>
-        <p>Please provide your prescription details below or select "No prescription" if you're ordering regular glasses.</p>
+        <div class="prescription-reminder">
+          <div class="reminder-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="reminder-content">
+            <h2>Important: Add Your Prescription</h2>
+            <p>
+              Please provide your prescription details below before proceeding to checkout. You can select "No
+              prescription" if you're ordering regular glasses.
+            </p>
+          </div>
+        </div>
 
         {% render 'prescription-form' %}
       </div>
@@ -470,6 +494,47 @@
   .cart-prescription-section h2 {
     margin-top: 0;
     margin-bottom: 10px;
+  }
+
+  .prescription-reminder {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff0f5;
+    border-left: 4px solid #e83e8c;
+    border-radius: 4px;
+  }
+
+  .reminder-icon {
+    margin-right: 15px;
+    color: #e83e8c;
+    flex-shrink: 0;
+  }
+
+  .reminder-content h2 {
+    color: #e83e8c;
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  .reminder-content p {
+    margin: 0;
+    color: #333;
+  }
+
+  @media screen and (max-width: 749px) {
+    .prescription-reminder {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .reminder-icon {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   }
 </style>
 

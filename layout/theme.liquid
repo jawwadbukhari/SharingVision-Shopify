@@ -372,5 +372,11 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <!-- Disable direct checkout and ensure customers go through cart page -->
+    <script src="{{ 'disable-direct-checkout.js' | asset_url }}" defer="defer"></script>
+
+    <!-- Redirect users after login to homepage instead of account page -->
+    <script src="{{ 'login-redirect.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

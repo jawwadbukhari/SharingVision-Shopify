@@ -1,0 +1,22 @@
+{% comment %}
+  Redirect users from account page to homepage on first visit after login
+{% endcomment %}
+
+<script>
+  // Check if this is the first time loading the account page in this session
+  document.addEventListener('DOMContentLoaded', function() {
+    // Only run on the account page, not on login or other customer pages
+    if (window.location.pathname === '/account') {
+      // Check if this is the first time loading the account page (using session storage)
+      const hasVisitedAccount = sessionStorage.getItem('hasVisitedAccount');
+      
+      if (!hasVisitedAccount) {
+        // Set the flag so we don't redirect again during this session
+        sessionStorage.setItem('hasVisitedAccount', 'true');
+        
+        // Redirect to the homepage
+        window.location.href = '/';
+      }
+    }
+  });
+</script>

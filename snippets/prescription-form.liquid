@@ -14,14 +14,23 @@
         <input type="radio" name="prescription_type" value="no_prescription" checked>
         No prescription (default glasses)
       </label>
-      <label>
-        <input type="radio" name="prescription_type" value="single_prescription">
-        Use one prescription for all items
-      </label>
-      <label>
-        <input type="radio" name="prescription_type" value="multiple_prescription">
-        Use different prescriptions for each item
-      </label>
+
+      {% if cart.items.size == 1 %}
+        <label>
+          <input type="radio" name="prescription_type" value="single_prescription">
+          Use prescription for this item
+        </label>
+      {% else %}
+        <label>
+          <input type="radio" name="prescription_type" value="single_prescription">
+          Use one prescription for all items
+        </label>
+        <label>
+          <input type="radio" name="prescription_type" value="multiple_prescription">
+          Use different prescriptions for each item
+        </label>
+      {% endif %}
+
       <label>
         <input type="radio" name="prescription_type" value="prescription_image">
         Upload a photo of my prescription
@@ -49,7 +58,10 @@
           <div><input type="text" name="cart[right_add]" placeholder="+"></div>
           <div rowspan="2" class="pd-field">
             <input type="text" name="cart[pd]" placeholder="mm">
-            <small>Or separate: <input type="text" name="cart[pd_right]" placeholder="Right" style="width: 40px;"> / <input type="text" name="cart[pd_left]" placeholder="Left" style="width: 40px;"></small>
+            <small
+              >Or separate: <input type="text" name="cart[pd_right]" placeholder="Right" style="width: 40px;"> /
+              <input type="text" name="cart[pd_left]" placeholder="Left" style="width: 40px;"
+            ></small>
           </div>
         </div>
 
@@ -64,7 +76,12 @@
 
       <div class="prescription-notes">
         <label for="prescription_notes">Additional Notes:</label>
-        <textarea name="cart[prescription_notes]" id="prescription_notes" rows="3" placeholder="Any special instructions for your prescription..."></textarea>
+        <textarea
+          name="cart[prescription_notes]"
+          id="prescription_notes"
+          rows="3"
+          placeholder="Any special instructions for your prescription..."
+        ></textarea>
       </div>
     </div>
 
@@ -74,12 +91,24 @@
 
     <div id="prescription-image-form" class="prescription-details" style="display: none;">
       <h4>Upload Your Prescription Image</h4>
-      <p class="prescription-upload-info">Please upload a clear photo or scan of your prescription. Make sure all details are visible and readable.</p>
+      <p class="prescription-upload-info">
+        Please upload a clear photo or scan of your prescription. Make sure all details are visible and readable.
+      </p>
 
       <div class="prescription-image-upload">
         <label for="prescription_image" class="upload-label">
           <div class="upload-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="17 8 12 3 7 8"></polyline>
               <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -88,7 +117,14 @@
           <span>Click to select a file or drag and drop</span>
           <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
         </label>
-        <input type="file" id="prescription_image" name="cart[prescription_image]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" data-prescription-file>
+        <input
+          type="file"
+          id="prescription_image"
+          name="cart[prescription_image]"
+          accept=".jpg,.jpeg,.png,.pdf"
+          style="display: none;"
+          data-prescription-file
+        >
         <div id="file-preview" class="file-preview" style="display: none;">
           <div class="preview-content">
             <img id="image-preview" src="" alt="Prescription preview" style="display: none;" width="200" height="auto">
@@ -98,9 +134,60 @@
         </div>
       </div>
 
+      <div class="prescription-option-checkboxes">
+        <p class="option-header">Would you also like to enter prescription details manually?</p>
+        <label class="checkbox-label">
+          <input type="checkbox" id="show-prescription-form-with-image" name="cart[show_prescription_form]" value="yes">
+          Yes, I'll enter the prescription details in addition to the image
+        </label>
+      </div>
+
+      <div id="prescription-form-with-image" style="display: none;">
+        <h4>Enter Your Prescription Details</h4>
+        <div class="prescription-grid">
+          <div class="prescription-header">
+            <div></div>
+            <div>SPH</div>
+            <div>CYL</div>
+            <div>AXIS</div>
+            <div>ADD</div>
+            <div>PD</div>
+          </div>
+
+          <div class="prescription-row">
+            <div>RIGHT EYE (OD)</div>
+            <div><input type="text" name="cart[right_sph_with_image]" placeholder="+/-"></div>
+            <div><input type="text" name="cart[right_cyl_with_image]" placeholder="+/-"></div>
+            <div><input type="text" name="cart[right_axis_with_image]" placeholder="1-180"></div>
+            <div><input type="text" name="cart[right_add_with_image]" placeholder="+"></div>
+            <div rowspan="2" class="pd-field">
+              <input type="text" name="cart[pd_with_image]" placeholder="mm">
+              <small
+                >Or separate:
+                <input type="text" name="cart[pd_right_with_image]" placeholder="Right" style="width: 40px;"> /
+                <input type="text" name="cart[pd_left_with_image]" placeholder="Left" style="width: 40px;"
+              ></small>
+            </div>
+          </div>
+
+          <div class="prescription-row">
+            <div>LEFT EYE (OS)</div>
+            <div><input type="text" name="cart[left_sph_with_image]" placeholder="+/-"></div>
+            <div><input type="text" name="cart[left_cyl_with_image]" placeholder="+/-"></div>
+            <div><input type="text" name="cart[left_axis_with_image]" placeholder="1-180"></div>
+            <div><input type="text" name="cart[left_add_with_image]" placeholder="+"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="prescription-notes">
         <label for="prescription_image_notes">Additional Notes:</label>
-        <textarea name="cart[prescription_image_notes]" id="prescription_image_notes" rows="3" placeholder="Any special instructions for your prescription..."></textarea>
+        <textarea
+          name="cart[prescription_image_notes]"
+          id="prescription_image_notes"
+          rows="3"
+          placeholder="Any special instructions for your prescription..."
+        ></textarea>
       </div>
     </div>
   </div>
@@ -110,7 +197,10 @@
   {% for item in cart.items %}
     <div class="item-prescription-container" data-item-key="{{ item.key }}">
       <div class="item-prescription-header" onclick="toggleItemPrescription(this)">
-        <h4>Prescription for: {{ item.product.title }} <span class="toggle-icon">+</span></h4>
+        <h4>
+          Prescription for: {{ item.product.title }}
+          <span class="toggle-icon">+</span>
+        </h4>
       </div>
 
       <div class="item-prescription-content" style="display: none;">
@@ -146,7 +236,15 @@
               <div><input type="text" name="properties[right_add_{{ item.key }}]" placeholder="+"></div>
               <div rowspan="2" class="pd-field">
                 <input type="text" name="properties[pd_{{ item.key }}]" placeholder="mm">
-                <small>Or separate: <input type="text" name="properties[pd_right_{{ item.key }}]" placeholder="Right" style="width: 40px;"> / <input type="text" name="properties[pd_left_{{ item.key }}]" placeholder="Left" style="width: 40px;"></small>
+                <small
+                  >Or separate:
+                  <input
+                    type="text"
+                    name="properties[pd_right_{{ item.key }}]"
+                    placeholder="Right"
+                    style="width: 40px;">
+                  / <input type="text" name="properties[pd_left_{{ item.key }}]" placeholder="Left" style="width: 40px;"
+                ></small>
               </div>
             </div>
 
@@ -161,7 +259,12 @@
 
           <div class="prescription-notes">
             <label for="prescription_notes_{{ item.key }}">Additional Notes:</label>
-            <textarea name="properties[prescription_notes_{{ item.key }}]" id="prescription_notes_{{ item.key }}" rows="3" placeholder="Any special instructions for this item..."></textarea>
+            <textarea
+              name="properties[prescription_notes_{{ item.key }}]"
+              id="prescription_notes_{{ item.key }}"
+              rows="3"
+              placeholder="Any special instructions for this item..."
+            ></textarea>
           </div>
         </div>
 
@@ -169,7 +272,17 @@
           <div class="prescription-image-upload">
             <label for="prescription_image_{{ item.key }}" class="upload-label">
               <div class="upload-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="17 8 12 3 7 8"></polyline>
                   <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -178,10 +291,26 @@
               <span>Click to select a file or drag and drop</span>
               <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
             </label>
-            <input type="file" id="prescription_image_{{ item.key }}" name="properties[prescription_image_{{ item.key }}]" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" class="item-file-input" data-item-key="{{ item.key }}" data-prescription-file>
+            <input
+              type="file"
+              id="prescription_image_{{ item.key }}"
+              name="properties[prescription_image_{{ item.key }}]"
+              accept=".jpg,.jpeg,.png,.pdf"
+              style="display: none;"
+              class="item-file-input"
+              data-item-key="{{ item.key }}"
+              data-prescription-file
+            >
             <div id="file-preview-{{ item.key }}" class="file-preview" style="display: none;">
               <div class="preview-content">
-                <img id="image-preview-{{ item.key }}" src="" alt="Prescription preview" style="display: none;" width="200" height="auto">
+                <img
+                  id="image-preview-{{ item.key }}"
+                  src=""
+                  alt="Prescription preview"
+                  style="display: none;"
+                  width="200"
+                  height="auto"
+                >
                 <div id="file-name-{{ item.key }}" class="file-name"></div>
               </div>
               <button type="button" class="remove-file" data-item-key="{{ item.key }}">Remove</button>
@@ -190,7 +319,12 @@
 
           <div class="prescription-notes">
             <label for="prescription_image_notes_{{ item.key }}">Additional Notes:</label>
-            <textarea name="properties[prescription_image_notes_{{ item.key }}]" id="prescription_image_notes_{{ item.key }}" rows="3" placeholder="Any special instructions for this item..."></textarea>
+            <textarea
+              name="properties[prescription_image_notes_{{ item.key }}]"
+              id="prescription_image_notes_{{ item.key }}"
+              rows="3"
+              placeholder="Any special instructions for this item..."
+            ></textarea>
           </div>
         </div>
       </div>
@@ -206,7 +340,8 @@
     overflow: hidden;
   }
 
-  .prescription-form-header, .item-prescription-header {
+  .prescription-form-header,
+  .item-prescription-header {
     background-color: #f9f9f9;
     padding: 15px;
     cursor: pointer;
@@ -216,11 +351,13 @@
     transition: background-color 0.3s;
   }
 
-  .prescription-form-header:hover, .item-prescription-header:hover {
+  .prescription-form-header:hover,
+  .item-prescription-header:hover {
     background-color: #f0f0f0;
   }
 
-  .prescription-form-content, .item-prescription-content {
+  .prescription-form-content,
+  .item-prescription-content {
     padding: 20px;
     border-top: 1px solid #e6e6e6;
   }
@@ -246,7 +383,8 @@
     margin-bottom: 10px;
   }
 
-  .prescription-header div, .prescription-row div {
+  .prescription-header div,
+  .prescription-row div {
     padding: 5px;
     text-align: center;
   }
@@ -343,7 +481,7 @@
   }
 
   .upload-label:hover {
-    border-color: #E83E8C;
+    border-color: #e83e8c;
     background-color: #fff0f5;
   }
 
@@ -354,7 +492,7 @@
   .upload-icon svg {
     width: 40px;
     height: 40px;
-    color: #E83E8C;
+    color: #e83e8c;
   }
 
   .upload-label span {
@@ -397,8 +535,8 @@
 
   .remove-file {
     background-color: transparent;
-    color: #E83E8C;
-    border: 1px solid #E83E8C;
+    color: #e83e8c;
+    border: 1px solid #e83e8c;
     border-radius: 4px;
     padding: 5px 10px;
     cursor: pointer;
@@ -407,13 +545,43 @@
   }
 
   .remove-file:hover {
-    background-color: #E83E8C;
+    background-color: #e83e8c;
     color: white;
   }
 
   .drag-over {
-    border-color: #E83E8C;
+    border-color: #e83e8c;
     background-color: #fff0f5;
+  }
+
+  .prescription-option-checkboxes {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #e83e8c;
+  }
+
+  .option-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox-label input[type='checkbox'] {
+    margin-right: 10px;
+  }
+
+  #prescription-form-with-image {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
   }
 </style>
 
@@ -440,29 +608,31 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const prescriptionTypeRadios = document.querySelectorAll('input[name="prescription_type"]');
     const singlePrescriptionForm = document.getElementById('single-prescription-form');
     const multiplePrescriptionForm = document.getElementById('multiple-prescription-form');
     const prescriptionImageForm = document.getElementById('prescription-image-form');
     const perItemPrescriptions = document.getElementById('per-item-prescriptions');
+    const showPrescriptionFormWithImage = document.getElementById('show-prescription-form-with-image');
+    const prescriptionFormWithImage = document.getElementById('prescription-form-with-image');
 
     // Set default empty values for all form inputs to prevent null/undefined errors
     const allInputs = [
       ...document.querySelectorAll('.prescription-form-container input[type="text"]'),
       ...document.querySelectorAll('.prescription-form-container textarea'),
       ...document.querySelectorAll('#per-item-prescriptions input[type="text"]'),
-      ...document.querySelectorAll('#per-item-prescriptions textarea')
+      ...document.querySelectorAll('#per-item-prescriptions textarea'),
     ];
 
-    allInputs.forEach(input => {
+    allInputs.forEach((input) => {
       // Set initial value to empty string if null or undefined
       if (input.value === null || input.value === undefined) {
         input.value = '';
       }
 
       // Add event listener for changes
-      input.addEventListener('change', function(event) {
+      input.addEventListener('change', function (event) {
         // Prevent event propagation
         event.stopPropagation();
 
@@ -476,7 +646,7 @@
     // Add form submission handler to ensure all values are valid
     const cartForm = document.querySelector('form[action="/cart"]');
     if (cartForm) {
-      cartForm.addEventListener('submit', function(event) {
+      cartForm.addEventListener('submit', function (event) {
         // Prevent default form submission
         event.preventDefault();
 
@@ -484,7 +654,7 @@
         const formInputs = this.querySelectorAll('input[type="text"], textarea');
 
         // Set empty string for any null or undefined values
-        formInputs.forEach(input => {
+        formInputs.forEach((input) => {
           if (input.value === null || input.value === undefined) {
             input.value = '';
           }
@@ -495,12 +665,13 @@
 
         // Handle file inputs - remove any unused file inputs to prevent validation errors
         const allFileInputs = this.querySelectorAll('input[type="file"][data-prescription-file]');
-        allFileInputs.forEach(fileInput => {
+        allFileInputs.forEach((fileInput) => {
           // Check if this file input is part of a visible section
           const prescriptionType = document.querySelector('input[name="prescription_type"]:checked');
           const isMainImageSelected = prescriptionType && prescriptionType.value === 'prescription_image';
-          const isItemImageSelected = fileInput.closest('.item-prescription-image') &&
-                                     fileInput.closest('.item-prescription-image').style.display !== 'none';
+          const isItemImageSelected =
+            fileInput.closest('.item-prescription-image') &&
+            fileInput.closest('.item-prescription-image').style.display !== 'none';
 
           // If file input is not being used, remove it from the form temporarily
           if (fileInput.id === 'prescription_image' && !isMainImageSelected) {
@@ -521,7 +692,7 @@
         }
 
         // Check for per-item prescription images
-        document.querySelectorAll('.item-file-input').forEach(input => {
+        document.querySelectorAll('.item-file-input').forEach((input) => {
           const itemKey = input.dataset.itemKey;
           const radioSelector = `input[name="prescription_type_${itemKey}"]:checked`;
           const itemPrescriptionType = document.querySelector(radioSelector);
@@ -540,8 +711,8 @@
     }
 
     // Handle prescription type selection
-    prescriptionTypeRadios.forEach(radio => {
-      radio.addEventListener('change', function(event) {
+    prescriptionTypeRadios.forEach((radio) => {
+      radio.addEventListener('change', function (event) {
         // Prevent the event from bubbling up to the cart's change handler
         event.stopPropagation();
 
@@ -563,10 +734,24 @@
       });
     });
 
+    // Handle the checkbox for showing prescription form with image
+    if (showPrescriptionFormWithImage) {
+      showPrescriptionFormWithImage.addEventListener('change', function (event) {
+        // Prevent the event from bubbling up
+        event.stopPropagation();
+
+        if (this.checked) {
+          prescriptionFormWithImage.style.display = 'block';
+        } else {
+          prescriptionFormWithImage.style.display = 'none';
+        }
+      });
+    }
+
     // Handle per-item prescription toggles
     const itemPrescriptionRadios = document.querySelectorAll('input[name^="prescription_type_"]');
-    itemPrescriptionRadios.forEach(radio => {
-      radio.addEventListener('change', function(event) {
+    itemPrescriptionRadios.forEach((radio) => {
+      radio.addEventListener('change', function (event) {
         // Prevent the event from bubbling up to the cart's change handler
         event.stopPropagation();
 
@@ -596,24 +781,24 @@
     const removeFileBtn = document.getElementById('remove-file');
 
     // File input change handler
-    fileInput.addEventListener('change', function(e) {
+    fileInput.addEventListener('change', function (e) {
       handleFileSelect(e);
     });
 
     // Drag and drop handlers
-    uploadLabel.addEventListener('dragover', function(e) {
+    uploadLabel.addEventListener('dragover', function (e) {
       e.preventDefault();
       e.stopPropagation();
       this.classList.add('drag-over');
     });
 
-    uploadLabel.addEventListener('dragleave', function(e) {
+    uploadLabel.addEventListener('dragleave', function (e) {
       e.preventDefault();
       e.stopPropagation();
       this.classList.remove('drag-over');
     });
 
-    uploadLabel.addEventListener('drop', function(e) {
+    uploadLabel.addEventListener('drop', function (e) {
       e.preventDefault();
       e.stopPropagation();
       this.classList.remove('drag-over');
@@ -625,7 +810,7 @@
     });
 
     // Remove file button handler
-    removeFileBtn.addEventListener('click', function() {
+    removeFileBtn.addEventListener('click', function () {
       fileInput.value = '';
       filePreview.style.display = 'none';
       imagePreview.style.display = 'none';
@@ -657,14 +842,14 @@
         if (file.type && file.type.match('image.*')) {
           const reader = new FileReader();
 
-          reader.onload = function(e) {
+          reader.onload = function (e) {
             if (e.target && e.target.result) {
               imagePreview.src = e.target.result;
               imagePreview.style.display = 'block';
             }
           };
 
-          reader.onerror = function() {
+          reader.onerror = function () {
             // Handle read errors
             imagePreview.style.display = 'none';
             console.log('Error reading file');
@@ -684,7 +869,7 @@
 
     // Handle individual item prescription image uploads
     const itemFileInputs = document.querySelectorAll('.item-file-input');
-    itemFileInputs.forEach(input => {
+    itemFileInputs.forEach((input) => {
       const itemKey = input.dataset.itemKey;
       const uploadLabel = input.previousElementSibling;
       const filePreview = document.getElementById(`file-preview-${itemKey}`);
@@ -692,24 +877,24 @@
       const fileName = document.getElementById(`file-name-${itemKey}`);
 
       // File input change handler
-      input.addEventListener('change', function(e) {
+      input.addEventListener('change', function (e) {
         handleItemFileSelect(e, itemKey);
       });
 
       // Drag and drop handlers
-      uploadLabel.addEventListener('dragover', function(e) {
+      uploadLabel.addEventListener('dragover', function (e) {
         e.preventDefault();
         e.stopPropagation();
         this.classList.add('drag-over');
       });
 
-      uploadLabel.addEventListener('dragleave', function(e) {
+      uploadLabel.addEventListener('dragleave', function (e) {
         e.preventDefault();
         e.stopPropagation();
         this.classList.remove('drag-over');
       });
 
-      uploadLabel.addEventListener('drop', function(e) {
+      uploadLabel.addEventListener('drop', function (e) {
         e.preventDefault();
         e.stopPropagation();
         this.classList.remove('drag-over');
@@ -722,8 +907,8 @@
     });
 
     // Remove file buttons for individual items
-    document.querySelectorAll('.remove-file[data-item-key]').forEach(button => {
-      button.addEventListener('click', function() {
+    document.querySelectorAll('.remove-file[data-item-key]').forEach((button) => {
+      button.addEventListener('click', function () {
         const itemKey = this.dataset.itemKey;
         const fileInput = document.getElementById(`prescription_image_${itemKey}`);
         const filePreview = document.getElementById(`file-preview-${itemKey}`);
@@ -765,14 +950,14 @@
         if (file.type && file.type.match('image.*')) {
           const reader = new FileReader();
 
-          reader.onload = function(e) {
+          reader.onload = function (e) {
             if (e.target && e.target.result) {
               imagePreview.src = e.target.result;
               imagePreview.style.display = 'block';
             }
           };
 
-          reader.onerror = function() {
+          reader.onerror = function () {
             // Handle read errors
             imagePreview.style.display = 'none';
             console.log('Error reading file');

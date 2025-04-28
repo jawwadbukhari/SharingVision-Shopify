@@ -1,0 +1,152 @@
+{% comment %}
+  Prescription Summary Component
+  Shows a summary of the prescription information before checkout
+{% endcomment %}
+
+<div class="prescription-summary">
+  <h3>Prescription Summary</h3>
+  <div class="prescription-summary-content">
+    <div class="prescription-type-summary">
+      <p><strong>Selected Option:</strong> <span id="prescription-type-display">No prescription selected</span></p>
+    </div>
+    
+    <div id="single-prescription-summary" class="prescription-details-summary" style="display: none;">
+      <h4>Prescription Details</h4>
+      <div class="prescription-grid-summary">
+        <div class="prescription-header-summary">
+          <div></div>
+          <div>SPH</div>
+          <div>CYL</div>
+          <div>AXIS</div>
+          <div>ADD</div>
+          <div>PD</div>
+        </div>
+        <div class="prescription-row-summary">
+          <div>RIGHT EYE (OD)</div>
+          <div id="right-sph-summary">-</div>
+          <div id="right-cyl-summary">-</div>
+          <div id="right-axis-summary">-</div>
+          <div id="right-add-summary">-</div>
+          <div rowspan="2" id="pd-summary">-</div>
+        </div>
+        <div class="prescription-row-summary">
+          <div>LEFT EYE (OS)</div>
+          <div id="left-sph-summary">-</div>
+          <div id="left-cyl-summary">-</div>
+          <div id="left-axis-summary">-</div>
+          <div id="left-add-summary">-</div>
+        </div>
+      </div>
+      <div id="prescription-notes-summary" class="prescription-notes-summary">
+        <p><strong>Notes:</strong> <span>-</span></p>
+      </div>
+    </div>
+    
+    <div id="prescription-image-summary" class="prescription-image-summary" style="display: none;">
+      <p><strong>Prescription Image:</strong> <span id="prescription-image-name">No image uploaded</span></p>
+      <div id="prescription-image-notes-summary" class="prescription-notes-summary">
+        <p><strong>Notes:</strong> <span>-</span></p>
+      </div>
+    </div>
+    
+    <div id="multiple-prescription-summary" class="multiple-prescription-summary" style="display: none;">
+      <p>You have selected different prescriptions for each item.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .prescription-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff0f5;
+    border-radius: 5px;
+    border-left: 4px solid #e83e8c;
+  }
+  
+  .prescription-summary h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #e83e8c;
+  }
+  
+  .prescription-type-summary {
+    margin-bottom: 15px;
+  }
+  
+  .prescription-details-summary {
+    margin-top: 15px;
+  }
+  
+  .prescription-grid-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+  }
+  
+  .prescription-header-summary {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .prescription-header-summary div,
+  .prescription-row-summary div {
+    padding: 5px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 3px;
+  }
+  
+  .prescription-row-summary div:first-child {
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .prescription-notes-summary {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 3px;
+  }
+  
+  .prescription-image-summary {
+    margin-top: 15px;
+  }
+  
+  .multiple-prescription-summary {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 3px;
+  }
+  
+  @media (max-width: 768px) {
+    .prescription-grid-summary {
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    
+    .prescription-header-summary {
+      display: none;
+    }
+    
+    .prescription-row-summary div:first-child {
+      grid-column: 1 / -1;
+    }
+    
+    .prescription-row-summary div:not(:first-child) {
+      position: relative;
+    }
+    
+    .prescription-row-summary div:not(:first-child)::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+</style>

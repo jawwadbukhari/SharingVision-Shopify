@@ -15,6 +15,30 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .checkout-button-container {
+    margin-top: 20px;
+  }
+
+  .checkout-note {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    text-align: center;
+  }
+
+  .cart__checkout-button {
+    background-color: #e83e8c;
+    border-color: #e83e8c;
+    color: #ffffff;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .cart__checkout-button:hover {
+    background-color: #d81b7a;
+    border-color: #d81b7a;
+  }
 {%- endstyle -%}
 
 <div
@@ -105,18 +129,22 @@
               </div>
             {%- else -%}
               <div class="cart__ctas" {{ block.shopify_attributes }}>
-                <button
-                  type="submit"
-                  id="checkout"
-                  class="cart__checkout-button button"
-                  name="checkout"
-                  {% if cart == empty %}
-                    disabled
-                  {% endif %}
-                  form="cart"
-                >
-                  {{ 'sections.cart.checkout' | t }}
-                </button>
+                {% comment %} Prescription Summary {% endcomment %}
+                {% render 'prescription-summary' %}
+
+                <div class="checkout-button-container">
+                  <button
+                    type="button"
+                    id="checkout"
+                    class="cart__checkout-button button"
+                    {% if cart == empty %}
+                      disabled
+                    {% endif %}
+                  >
+                    {{ 'sections.cart.checkout' | t }}
+                  </button>
+                  <p class="checkout-note">By clicking checkout, you confirm your prescription details are correct.</p>
+                </div>
               </div>
 
               {%- if additional_checkout_buttons -%}
@@ -147,7 +175,7 @@
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
-    },    
+    },
     {
       "type": "range",
       "id": "padding_top",
