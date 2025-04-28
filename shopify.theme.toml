@@ -1,0 +1,12 @@
+# Shopify CLI configuration file
+# This file configures the Shopify CLI for this theme
+
+[theme]
+# The ID of your theme - this is the Dawn theme ID from your store
+id = "177998397780"
+
+# Your store URL
+store = "qxprq7-jc.myshopify.com"
+
+# Set to true to always push to this theme without prompting
+is_live = true
