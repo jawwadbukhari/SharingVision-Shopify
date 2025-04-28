@@ -14,15 +14,39 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_LXicjy": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        },
+        "announcement_dwDRhg": {
+          "type": "announcement",
+          "settings": {
+            "text": "Are you a local? Visit our in store branch",
+            "link": ""
+          }
+        },
+        "announcement_QBRRty": {
+          "type": "announcement",
+          "settings": {
+            "text": "Subscribe to our social media channels",
+            "link": ""
+          }
+        },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our online store",
+            "text": "Global online stores opening soon to serve UK & EU markets",
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_LXicjy",
+        "announcement_dwDRhg",
+        "announcement_QBRRty",
         "announcement-bar-0"
       ],
       "settings": {
@@ -38,7 +62,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "middle-left",
+        "logo_position": "top-center",
         "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",

@@ -16,7 +16,7 @@
           "type": "heading",
           "settings": {
             "heading": "Stylish Vision, Vibrant You",
-            "heading_size": "h0"
+            "heading_size": "hxl"
           }
         },
         "text": {
@@ -33,8 +33,8 @@
             "button_link_1": "shopify://collections/womens",
             "button_style_secondary_1": false,
             "button_label_2": "Shop Men's",
-            "button_link_2": "shopify://collections/mens",
-            "button_style_secondary_2": false
+            "button_link_2": "shopify://collections/men-collection",
+            "button_style_secondary_2": true
           }
         }
       },
@@ -45,9 +45,8 @@
       ],
       "settings": {
         "image": "shopify://shop_images/banner-image-1.jpg",
-        "image_2": "{{ shop.brand.cover_image }}",
-        "image_overlay_opacity": 0,
-        "image_height": "medium",
+        "image_overlay_opacity": 20,
+        "image_height": "large",
         "image_behavior": "ambient",
         "desktop_content_position": "middle-center",
         "desktop_content_alignment": "center",
@@ -93,14 +92,15 @@
       "blocks": {
         "collection-0": {
           "type": "collection",
+          "name": "WomenCollection",
           "settings": {
             "collection": "womens"
           }
         },
-        "collection-1": {
+        "collection_h39JPp": {
           "type": "collection",
           "settings": {
-            "collection": "mens"
+            "collection": "men-collection"
           }
         },
         "collection-2": {
@@ -112,7 +112,7 @@
       },
       "block_order": [
         "collection-0",
-        "collection-1",
+        "collection_h39JPp",
         "collection-2"
       ],
       "settings": {
@@ -121,7 +121,7 @@
         "desktop_layout": "mosaic",
         "mobile_layout": "collage",
         "card_styles": "none",
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-3",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -160,7 +160,7 @@
         "testimonial-1": {
           "type": "testimonial",
           "settings": {
-            "quote": "The geometrical frame get me so many compliments! They're not just stylish but incredibly comfortable too. I love how they add a pop of fashion to my everyday look.",
+            "quote": "These pink frames get me so many compliments! They're not just stylish but incredibly comfortable too. I love how they add a pop of color to my everyday look.",
             "author_name": "Ayesha Khan",
             "author_info": "Lahore, Pakistan"
           }
@@ -168,15 +168,15 @@
         "testimonial-2": {
           "type": "testimonial",
           "settings": {
-            "quote": "The prescription sunglasses I bought are awesome. I have a strong prescription and wearing sunglasses without prescription was a nightmare but thanks to SharingVisionPK I can now have great comfort.",
+            "quote": "The purple gradient sunglasses I bought are absolutely stunning! The color is vibrant yet sophisticated, and they protect my eyes perfectly. Sharing Vision has the most unique styles!",
             "author_name": "Muhammad Ali",
-            "author_info": "Rawalpindi, Pakistan"
+            "author_info": "Karachi, Pakistan"
           }
         },
         "testimonial-3": {
           "type": "testimonial",
           "settings": {
-            "quote": "Sharing Vision helped me find the perfect shades in a long time. I feel so confident wearing them!",
+            "quote": "I never thought I could pull off such bold frames, but the stylists at Sharing Vision helped me find the perfect shade of pink that complements my skin tone. I feel so confident wearing them!",
             "author_name": "Fatima Zahra",
             "author_info": "Islamabad, Pakistan"
           }
@@ -192,8 +192,8 @@
         "heading_size": "h1",
         "full_width": false,
         "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "multicolumn": {
@@ -242,7 +242,7 @@
         "columns_desktop": 3,
         "column_alignment": "center",
         "background_style": "primary",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-3",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
         "padding_top": 48,
