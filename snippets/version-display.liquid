@@ -1,0 +1,18 @@
+{% comment %}
+  Version Display Snippet
+  This snippet displays the current theme version
+{% endcomment %}
+
+<div class="theme-version">
+  {% capture version_content %}{% include 'VERSION' %}{% endcapture %}
+  <small>Theme Version: v{{ version_content | strip }}</small>
+</div>
+
+<style>
+  .theme-version {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin: 10px 0;
+  }
+</style>
