@@ -1,0 +1,46 @@
+/* Custom footer styles */
+.footer-block--menu .footer-block__details-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-block--menu .footer-block__details-content .list-menu__item--link {
+  padding: 0.5rem 1rem;
+  font-size: 1.4rem;
+}
+
+.footer-block__heading {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .footer-block--menu .footer-block__details-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-block--menu .footer-block__details-content .list-menu__item--link {
+    padding: 0.8rem 0;
+  }
+}
+
+/* Center the newsletter section */
+.footer-block--newsletter {
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.footer__content-top {
+  padding-bottom: 3rem;
+}
+
+/* Make sure the footer links are centered */
+.footer-block:only-child:last-child {
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
